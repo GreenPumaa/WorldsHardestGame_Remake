@@ -8,22 +8,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.awt.geom.Point2D;
+
 public class Player extends PFigure
 {
    Circle player;
+   private boolean dead = false;
    private static Player instance = null;
    private static final int KEYBOARD_MOVEMENT = 5;
    private int startPosX, startPosY, radius, priority;
-   private Stage pane;
+   private Pane pane;
 
    public static Player getInstance()
    {
       if(instance == null)
-         instance = new Player(getInstance().pane);
+         instance = new Player();
       return instance;
    }
 
-   private Player(Stage pane)
+   public Player(Pane pane)
    {
       this.startPosX = startPosY = 20;
       this.radius = 10;

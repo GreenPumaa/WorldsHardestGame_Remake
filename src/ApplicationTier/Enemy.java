@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 import static java.awt.Color.BLUE;
 
-public class Enemy extends PFigure
+public class Enemy
 {
    private Circle enemy;
    private final Line enemyPath = new Line();
@@ -29,7 +29,7 @@ public class Enemy extends PFigure
       this.priority = 2;
    }
 
-   @Override
+   //@Override
    public void draw()
    {
       enemy.setFill(Color.BLUE);

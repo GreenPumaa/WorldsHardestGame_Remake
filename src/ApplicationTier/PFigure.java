@@ -8,21 +8,20 @@ import javafx.scene.layout.Pane;
 public abstract class PFigure implements Comparable
 {
    private int x, y;           // Current position of the figure
-   private int radius;         // Drawn (displayed) this size
+   private int width, height;         // Drawn (displayed) this size
    private int priority;       // Can use to determine "winner"
    private Pane pane;          // Panel the figure lives on
 
-   /*
-   public PFigure ( int posX, int posY, int radius, int pr, Pane p )
+   public PFigure ( int posX, int posY, int _height, int _width, int priority,
+                    Pane p )
    {
       this.x = posX;
       this.y = posY;
-      this.radius = radius;
-      this.priority = pr;
+      this.width = _width;
+      this.height = _height;
+      this.priority = priority;
       this.pane = p;
    }
-   */
-
 
    /**
     *
@@ -42,14 +41,14 @@ public abstract class PFigure implements Comparable
     * @param p the figure in the question.
     * @return true if the figures have collided, false otherwise.
     */
-   public boolean collidedWith ( PFigure p )
+   /*public boolean collidedWith ( PFigure p )
    {
       if (  p == null )
          return false;
 
       return ( x + radius ) >= p.x && ( p.x + p.radius ) >= x &&
          ( y + radius ) >= p.y && ( p.y + p.radius ) >= y;
-   }
+   }*/
 
    /**
     * Changes the position of the figure.
