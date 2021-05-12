@@ -7,20 +7,20 @@ import javafx.scene.layout.Pane;
  */
 public abstract class PFigure implements Comparable
 {
-   protected int x, y;           // Current position of the figure
-   protected int height, width;  // Drawn (displayed) this size
-   protected int priority;       // Can use to determine "winner"
-   protected Pane living_pane;          // Panel the figure lives on
+   private int x, y;           // Current position of the figure
+   private int width, height;         // Drawn (displayed) this size
+   private int priority;       // Can use to determine "winner"
+   private Pane pane;          // Panel the figure lives on
 
-
-   public PFigure ( int posX, int posY, int _height, int _width, int pr, Pane p )
+   public PFigure ( int posX, int posY, int _height, int _width, int priority,
+                    Pane p )
    {
       this.x = posX;
       this.y = posY;
-      this.height = _height;
       this.width = _width;
-      this.priority = pr;
-      this.living_pane = p;
+      this.height = _height;
+      this.priority = priority;
+      this.pane = p;
    }
 
    /**
@@ -41,14 +41,14 @@ public abstract class PFigure implements Comparable
     * @param p the figure in the question.
     * @return true if the figures have collided, false otherwise.
     */
-   public boolean collidedWith ( PFigure p )
+   /*public boolean collidedWith ( PFigure p )
    {
       if (  p == null )
          return false;
 
-      return ( x + width ) >= p.x && ( p.x + p.width ) >= x &&
-         ( y + height ) >= p.y && ( p.y + p.height ) >= y;
-   }
+      return ( x + radius ) >= p.x && ( p.x + p.radius ) >= x &&
+         ( y + radius ) >= p.y && ( p.y + p.radius ) >= y;
+   }*/
 
    /**
     * Changes the position of the figure.
@@ -66,7 +66,7 @@ public abstract class PFigure implements Comparable
     */
    public void hide()
    {
-      this.living_pane.setVisible(false);
+      pane.setVisible(false);
    }
 
    /**
@@ -81,5 +81,6 @@ public abstract class PFigure implements Comparable
     * Abstract draw method to be overridden.
     */
    abstract public void draw();
+
 
 }
