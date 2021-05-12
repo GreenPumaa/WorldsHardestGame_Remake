@@ -2,26 +2,31 @@ package ApplicationTier;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 
 public class Enemy extends PFigure
 {
-   private int xVel = 20;
-   private int yVel = 20;
+   private int xVel = 5;
+   private int yVel = 5;
    private ImageView imageView;
 
-   public Enemy(Pane p)
+   Polygon enemy;
+
+   private static final int STARTING_POS_X = 200;
+   private static final int STARTING_POS_Y = 300;
+   private static final int DEFAULT_WIDTH = 10;
+   private static final int DEFAULT_HEIGHT = 10;
+   private static final int PRIORITY = 0;
+
+
+   public Enemy(Pane enemyPane)
    {
-      // TODO PR is subject to change. Its a temporary 1.
-      super(50,  50,  110,  78, 1, p );
-      try
-      {
-         imageView = new ImageView("file:dmg.jpg"); // find enemy pic
-         draw();
-      }
-      catch ( Exception e )
-      {
-         e.printStackTrace();
-      }
+      // TODO PR is subject to change. Its a temporary 0 (for enemy).
+      super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
+              DEFAULT_WIDTH, PRIORITY, enemyPane );
+      super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
 
    @Override
@@ -33,21 +38,51 @@ public class Enemy extends PFigure
          yVel = - yVel;
       x = x + xVel;
       y = y + yVel;
+
+      //Polygon.union(enemy, enemy);
+
+     // draw();
+
+      //Move right
+      //enemy.getPoints().setAll(x + 10.0);
+      living_pane.getChildren().remove(enemy);
+
    }
 
    @Override
    public void draw()
    {
-      if( imageView != null )
-      {
-         imageView.setX(x);
-         imageView.setY(y);
-         imageView.setFitHeight(height);
-         imageView.setFitWidth(width);
-         living_pane.getChildren().clear();
-         living_pane.getChildren().add(imageView);
-         living_pane.setVisible(true);
-      }
+      enemy = new Polygon(); //coordinates of the polygon
+      // vertices
+      enemy.getPoints().addAll(new Double[]{
+              x - 0.0, y - 12.0,
+              x + 3.0, y - 9.0,//inside - in 3 down 3
+              x + 10.0, y - 6.0,
+              x + 7.0, y - 3.0,
+              x + 12.0, y - 0.0,
+              x + 7.0, y + 3.0,
+              x + 10.0, y + 6.0,
+              x + 3.0, y + 9.0,
+              x + 0.0, y + 12.0,
+              x - 3.0, y + 9.0,
+              x - 10.0, y + 6.0,
+              x - 7.0, y + 3.0,
+              x - 12.0, y - 0.0,
+              x - 7.0, y - 3.0,
+              x - 10.0, y - 6.0,
+              x - 3.0, y - 9.0,
+              x - 0.0, y - 12.0,
+
+
+   });
+
+      //enemy.setX(super.x);
+      //enemy.setY(super.y);
+
+      enemy.setFill(Color.RED);
+      enemy.setStroke(Color.BLACK);
+
+      living_pane.getChildren().add(enemy);
    }
 }
 

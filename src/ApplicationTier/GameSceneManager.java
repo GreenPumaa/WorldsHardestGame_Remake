@@ -17,11 +17,15 @@ public class GameSceneManager
   private Stage startScreen_Stage;
 
   private Player player;
+  private Enemy enemy;
+  private Token token;
 
   private static final int MOVE_DISTANCE = 5;
   private static final int GAME_HEIGHT = 400;
   private static final int GAME_WIDTH = 600;
   private boolean NORTH, EAST, SOUTH, WEST;
+
+  private int tokenNum;
 
   private AnimationTimer gameLoop;
 
@@ -38,6 +42,8 @@ public class GameSceneManager
       this.startScreen_Stage = startScreen;
       startScreen.hide();
       createPlayer();
+      createEnemy();
+      createToken();
       initializeListeners();
       gameLoop();
       gameScreen_Stage.show();
@@ -92,16 +98,44 @@ public class GameSceneManager
       player.move();
    }
 
+   private void playerCollidedWithToken()
+   {
+      //TODO finish when tokens and enemies are in an arrayList[]
+
+      //tokenNum++;
+      //gameScreen_Pane.getChildren().remove(token);
+      //token.clear()?
+   }
+
+   private void enemyMove()
+   {
+      enemy.move();
+      enemy.draw();
+   }
+
+   private void tokenMove()
+   {
+      token.move();
+      token.draw();
+   }
+
    private void createPlayer()
    {
       player = new Player(gameScreen_Pane);
       player.draw();
    }
 
-   private void createEnemies()
+   private void createEnemy()
    {
-      Enemy enemy = new Enemy(gameScreen_Pane);
+      // make array list for all enemies
+      enemy = new Enemy(gameScreen_Pane);
       enemy.draw();
+   }
+
+   private void createToken()
+   {
+      token = new Token(gameScreen_Pane);
+      token.draw();
    }
 
    private void gameLoop()
@@ -112,6 +146,10 @@ public class GameSceneManager
          public void handle(long l)
          {
             moveDirection();
+            enemyMove();
+            tokenMove();
+            if(player.collidedWith(token))
+               playerCollidedWithToken();
          }
       };
       gameLoop.start();

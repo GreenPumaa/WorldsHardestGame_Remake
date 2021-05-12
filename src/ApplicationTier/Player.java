@@ -38,20 +38,13 @@ public class Player extends PFigure
    @Override
    public void draw()
    {
-      /*Ellipse elip1 = new Ellipse(x + width/2, y + 20, width/4, height / 4);
-      elip1.setStroke(Color.RED);
-      elip1.setFill(Color.BLACK);
-
-      elip1.setLayoutX(5);
-      elip1.setLayoutY(5);*/
-
       player = new Rectangle(width, height);
       player.setX(super.x);
       player.setY(super.y);
 
       //player.setLayoutX();
       //player.setLayoutY();
-      player.setFill(Color.RED);
+      player.setFill(Color.LIGHTSEAGREEN);
       player.setStroke(Color.BLACK);
 
       living_pane.getChildren().add(player);
