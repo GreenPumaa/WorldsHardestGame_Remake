@@ -1,7 +1,9 @@
 package ApplicationTier;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -19,6 +21,9 @@ public class GameSceneManager
   private static final int MOVE_DISTANCE = 5;
   private static final int GAME_HEIGHT = 400;
   private static final int GAME_WIDTH = 600;
+  private boolean NORTH, EAST, SOUTH, WEST;
+
+  private AnimationTimer gameLoop;
 
   public GameSceneManager()
   {
@@ -32,48 +37,64 @@ public class GameSceneManager
    {
       this.startScreen_Stage = startScreen;
       startScreen.hide();
-      gameScreen_Stage.show();
       createPlayer();
       initializeListeners();
+      gameLoop();
+      gameScreen_Stage.show();
    }
 
 
    private void initializeListeners()
    {
-      gameScreen_Scene.setOnKeyPressed(new EventHandler<KeyEvent>()
+      gameScreen_Scene.setOnKeyPressed(keyEvent ->
       {
-         @Override
-         public void handle(KeyEvent keyEvent)
+         switch (keyEvent.getCode())
          {
-            switch(keyEvent.getCode())
-            {
-               case W:
-                  player.move(0, MOVE_DISTANCE);
-               case A:
-                  player.move(MOVE_DISTANCE * (-1), 0);
-               case S:
-                  player.move(0, MOVE_DISTANCE * (-1));
-               case D:
-                  player.move(MOVE_DISTANCE, 0);
-               default:
-                  break;
-            }
+            case W -> NORTH = true;
+            case A -> EAST = true;
+            case S -> SOUTH = true;
+            case D -> WEST = true;
          }
-      });
 
-      gameScreen_Pane.setOnKeyReleased(new EventHandler<KeyEvent>()
-      {
-         @Override
-         public void handle(KeyEvent keyEvent)
+         gameScreen_Scene.setOnKeyReleased(keyEvent1 ->
          {
-            
-         }
+            switch (keyEvent1.getCode())
+            {
+               case W -> NORTH = false;
+               case S -> SOUTH = false;
+               case A -> EAST = false;
+               case D -> WEST = false;
+            }
+         });
       });
+   }
+
+   private void moveDirection()
+   {
+      if(NORTH && !SOUTH && !EAST && !WEST)
+         player.move(0, -MOVE_DISTANCE);
+      if(NORTH && WEST && !EAST && !SOUTH)
+         player.move(MOVE_DISTANCE, -MOVE_DISTANCE);
+      if(NORTH && EAST && !WEST && !SOUTH)
+         player.move(-MOVE_DISTANCE, -MOVE_DISTANCE);
+      if(SOUTH && WEST && !EAST && !NORTH)
+         player.move(MOVE_DISTANCE, MOVE_DISTANCE);
+      if(SOUTH && EAST && !WEST && !NORTH)
+         player.move(-MOVE_DISTANCE, MOVE_DISTANCE);
+      if(SOUTH && !NORTH && !EAST && !WEST)
+         player.move(0, MOVE_DISTANCE);
+      if(EAST && !NORTH && !SOUTH && !WEST)
+         player.move(-MOVE_DISTANCE, 0);
+      if(WEST && !NORTH && !SOUTH && !EAST)
+         player.move(MOVE_DISTANCE, 0);
+
+
+      player.move();
    }
 
    private void createPlayer()
    {
-      player = new Player(gameScreen_Pane).getInstance(gameScreen_Pane);
+      player = new Player(gameScreen_Pane);
       player.draw();
    }
 
@@ -81,5 +102,18 @@ public class GameSceneManager
    {
       Enemy enemy = new Enemy(gameScreen_Pane);
       enemy.draw();
+   }
+
+   private void gameLoop()
+   {
+      gameLoop = new AnimationTimer()
+      {
+         @Override
+         public void handle(long l)
+         {
+            moveDirection();
+         }
+      };
+      gameLoop.start();
    }
 }

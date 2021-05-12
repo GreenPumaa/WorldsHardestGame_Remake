@@ -10,7 +10,7 @@ public abstract class PFigure implements Comparable
    protected int x, y;           // Current position of the figure
    protected int height, width;  // Drawn (displayed) this size
    protected int priority;       // Can use to determine "winner"
-   protected Pane living_pane;          // Panel the figure lives on
+   protected Pane living_pane;   // Panel the figure lives on
 
 
    public PFigure ( int posX, int posY, int _height, int _width, int pr, Pane p )
