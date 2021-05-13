@@ -50,7 +50,9 @@ public class Token extends PFigure{
 
       try
       {
-         imageView = new ImageView("file:token.jpg"); // find enemy pic
+         imageView = new ImageView("file:token.jpg");
+         imageView.setFitWidth(DEFAULT_WIDTH);
+         imageView.setFitHeight(DEFAULT_HEIGHT);
       }
       catch ( Exception e )
       {

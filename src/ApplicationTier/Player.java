@@ -19,7 +19,6 @@ public class Player extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
-
    public static Player getInstance(Pane p)
    {
       if(instance == null)
@@ -53,6 +52,39 @@ public class Player extends PFigure
    @Override
    public void move()
    {
+      if(x < 0 || y < 0 || x > (living_pane.getWidth() - DEFAULT_WIDTH) || y > (living_pane.getHeight() - DEFAULT_HEIGHT))
+      {
+         if(x < 0 && y < 0) // top left corner
+         {
+            x = 0;
+            y = 0;
+         }
+         else if(x < 0 && y > living_pane.getHeight() - DEFAULT_HEIGHT) // bottom left corner
+         {
+            y = ((int) living_pane.getHeight()) - DEFAULT_HEIGHT;
+            x = 0;
+         }
+         else if(x > (living_pane.getWidth() - DEFAULT_WIDTH) && (y > living_pane.getHeight() - DEFAULT_HEIGHT)) // bottom right corner
+         {
+            y = ((int) living_pane.getHeight()) - DEFAULT_HEIGHT;
+            x = ((int) living_pane.getWidth()) - DEFAULT_WIDTH;
+         }
+         else if(y < 0 && x > (living_pane.getWidth() - DEFAULT_WIDTH)) // top right corner
+         {
+            y = 0;
+            x = ((int) living_pane.getWidth()) - DEFAULT_WIDTH;
+         }
+         else if(y < 0) // top wall
+            y = 0;
+         else if(x < 0) // middle left wall
+            x = 0;
+         else if(y > living_pane.getHeight() - DEFAULT_HEIGHT) //
+            // bottom wall
+            y = ((int) living_pane.getHeight()) - DEFAULT_HEIGHT;
+         else // right wall
+            x = ((int) living_pane.getWidth()) - DEFAULT_WIDTH;
+      }
+
       player.setX(x);
       player.setY(y);
       //living_pane.setLayoutX(living_pane.getLayoutX());

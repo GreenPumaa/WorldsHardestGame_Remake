@@ -1,18 +1,21 @@
 package ApplicationTier;
 
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 public class Enemy extends PFigure
 {
-   private int xVel = 5;
-   private int yVel = 5;
+   private int xVel = 1;
+   private int yVel = 1;
    private ImageView imageView;
 
-   Polygon enemy;
+   Group enemy;
 
    private static final int STARTING_POS_X = 200;
    private static final int STARTING_POS_Y = 300;
@@ -52,9 +55,22 @@ public class Enemy extends PFigure
    @Override
    public void draw()
    {
-      enemy = new Polygon(); //coordinates of the polygon
+      Circle eye1 = new Circle(x - 2, y - 3, 3);
+      eye1.setStroke(Color.BLACK);
+      eye1.setFill(Color.YELLOW);
+      Circle eye2 = new Circle(x + 2, y - 3, 3);
+      eye2.setStroke(Color.BLACK);
+      eye2.setFill(Color.YELLOW);
+      Circle pupil1 = new Circle(x - 2, y - 2.5, 1.5);
+      pupil1.setFill(Color.BLACK);
+      Circle pupil2 = new Circle(x + 2, y - 2.5, 1.5);
+      pupil2.setFill(Color.BLACK);
+      Ellipse mouth = new Ellipse(x, y + 4, 5, 1.5);
+      mouth.setFill(Color.YELLOWGREEN);
+
+      Polygon enemyOutline = new Polygon(); //coordinates of the polygon
       // vertices
-      enemy.getPoints().addAll(new Double[]{
+      enemyOutline.getPoints().addAll(new Double[]{
               x - 0.0, y - 12.0,
               x + 3.0, y - 9.0,//inside - in 3 down 3
               x + 10.0, y - 6.0,
@@ -72,16 +88,11 @@ public class Enemy extends PFigure
               x - 10.0, y - 6.0,
               x - 3.0, y - 9.0,
               x - 0.0, y - 12.0,
+      });
+      enemyOutline.setFill(Color.RED);
+      enemyOutline.setStroke(Color.BLACK);
 
-
-   });
-
-      //enemy.setX(super.x);
-      //enemy.setY(super.y);
-
-      enemy.setFill(Color.RED);
-      enemy.setStroke(Color.BLACK);
-
+      enemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);
       living_pane.getChildren().add(enemy);
    }
 }
