@@ -9,6 +9,8 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
+import java.util.Random;
+
 public class Enemy extends PFigure
 {
    private int xVel = 1;
@@ -23,12 +25,21 @@ public class Enemy extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 0;
 
+   Random enemySpawn = new Random();
+
+   private int randX = enemySpawn.nextInt(900);
+   private int randY = enemySpawn.nextInt(600);
+
 
    public Enemy(Pane enemyPane)
    {
       // TODO PR is subject to change. Its a temporary 0 (for enemy).
       super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
               DEFAULT_WIDTH, PRIORITY, enemyPane );
+
+      this.x = randX;
+      this.y = randY;
+
       super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
 

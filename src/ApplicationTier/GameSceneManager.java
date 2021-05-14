@@ -24,10 +24,14 @@ public class GameSceneManager
   private Enemy enemy;
   private Token token;
 
-  private static final int MOVE_DISTANCE = 5;
-  private static final int GAME_HEIGHT = 400;
-  private static final int GAME_WIDTH = 600;
-  private boolean NORTH, EAST, SOUTH, WEST;
+   private static final int MAX_ENEMIES = 5;
+   private static final int MOVE_DISTANCE = 3;
+   private static final int GAME_HEIGHT = 600; //400
+   private static final int GAME_WIDTH = 900; //600
+   private boolean NORTH, EAST, SOUTH, WEST;
+
+  private PFigureList enemyList = new PFigureList();
+
 
   private int tokenNum;
 
@@ -46,7 +50,7 @@ public class GameSceneManager
       this.startScreen_Stage = startScreen;
       startScreen.hide();
       createPlayer();
-      createEnemy();
+      createEnemies();
       createToken();
       initializeListeners();
       gameLoop();
@@ -77,6 +81,28 @@ public class GameSceneManager
             }
          });
       });
+   }
+
+   private void enemiesMove()
+   {
+      for(int i = 0; i < MAX_ENEMIES; i++)
+      {
+         Enemy currEnemy = (Enemy) enemyList.figure(i);
+         currEnemy.move();
+         currEnemy.draw();
+      }
+   }
+
+   private void createEnemies()
+   {
+      for(int i = 0; i < MAX_ENEMIES; i++)
+      {
+         Enemy newEnemy = new Enemy(gameScreen_Pane);
+         newEnemy.draw();
+         enemyList.add(newEnemy);
+      }
+      //seekingEnemy = new SeekingEnemy(gameScreen_Pane);
+      //seekingEnemy.draw();
    }
 
    private void moveDirection()
@@ -150,7 +176,7 @@ public class GameSceneManager
          public void handle(long l)
          {
             moveDirection();
-            enemyMove();
+            enemiesMove();
             tokenMove();
             if(player.collidedWith(token))
                playerCollidedWithToken();
