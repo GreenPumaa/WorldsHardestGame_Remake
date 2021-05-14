@@ -23,6 +23,7 @@ public class GameSceneManager
   private Player player;
   private Enemy enemy;
   private Token token;
+  private seekingEnemy seekingEnemy;
 
    private static final int MAX_ENEMIES = 5;
    private static final int MOVE_DISTANCE = 3;
@@ -51,6 +52,7 @@ public class GameSceneManager
       startScreen.hide();
       createPlayer();
       createEnemies();
+      createSeekingEnemy();
       createToken();
       initializeListeners();
       gameLoop();
@@ -105,6 +107,13 @@ public class GameSceneManager
       //seekingEnemy.draw();
    }
 
+   private void createSeekingEnemy()
+   {
+      seekingEnemy = new seekingEnemy(gameScreen_Pane);
+      seekingEnemy.draw();
+
+   }
+
    private void moveDirection()
    {
       if(NORTH && !SOUTH && !EAST && !WEST)
@@ -137,10 +146,10 @@ public class GameSceneManager
       //token.clear()?
    }
 
-   private void enemyMove()
+   private void seekingEnemyMove()
    {
-      enemy.move();
-      enemy.draw();
+      seekingEnemy.move();
+      seekingEnemy.draw();
    }
 
    private void tokenMove()
@@ -177,6 +186,7 @@ public class GameSceneManager
          {
             moveDirection();
             enemiesMove();
+            seekingEnemyMove();
             tokenMove();
             if(player.collidedWith(token))
                playerCollidedWithToken();

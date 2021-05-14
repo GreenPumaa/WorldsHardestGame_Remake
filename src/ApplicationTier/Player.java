@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 public class Player extends PFigure
 {
    private static Player instance = null;
-   Rectangle player;
+   static Rectangle player;
 
    private static final int STARTING_POS_X = 200;
    private static final int STARTING_POS_Y = 200;
@@ -89,4 +89,15 @@ public class Player extends PFigure
       player.setY(y);
       //living_pane.setLayoutX(living_pane.getLayoutX());
    }
+
+   public static double getX()
+   {
+      return player.getX();
+   }
+
+   public static double getY()
+   {
+      return player.getY();
+   }
+
 }
