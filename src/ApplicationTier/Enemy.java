@@ -53,12 +53,6 @@ public class Enemy extends PFigure
       x = x + xVel;
       y = y + yVel;
 
-      //Polygon.union(enemy, enemy);
-
-     // draw();
-
-      //Move right
-      //enemy.getPoints().setAll(x + 10.0);
       living_pane.getChildren().remove(enemy);
 
    }
@@ -107,55 +101,3 @@ public class Enemy extends PFigure
       living_pane.getChildren().add(enemy);
    }
 }
-
-
-/*
-   private Circle enemy;
-   private final Line enemyPath = new Line();
-   private final PathTransition transition = new PathTransition();
-
-   private static final Duration TRANSLATE_DURATION = Duration.seconds(0.25);
-   private int startPosX, startPosY, radius, priority;
-   private Pane pane;
-
-   public Enemy(Pane pane)
-   {
-      this.startPosX = this.startPosY = 50;
-      this.radius = 10;
-      this.priority = 2;
-   }
-
-   @Override
-   public void draw()
-   {
-      enemy.setFill(Color.BLUE);
-   }
-
-   private void enemyTransition()
-   {
-      transition.setNode(enemy);
-      transition.setDuration((Duration.INDEFINITE));
-      transition.setPath(enemyPath);
-      transition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-      transition.setCycleCount(PathTransition.INDEFINITE);
-      transition.play();
-   }
-
-   private TranslateTransition createTranslateTransition(final Circle circle)
-   {
-      TranslateTransition transition = new TranslateTransition(TRANSLATE_DURATION, circle);
-      transition.setOnFinished(new EventHandler<ActionEvent>()
-      {
-         @Override
-         public void handle(ActionEvent t)
-         {
-            circle.setCenterX(circle.getTranslateX() + circle.getCenterX());
-            circle.setCenterY(circle.getTranslateY() + circle.getCenterY());
-            circle.setTranslateX(0);
-            circle.setTranslateY(0);
-         }
-      });
-      return transition;
-   }
-
-}*/

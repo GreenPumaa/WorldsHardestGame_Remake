@@ -53,6 +53,7 @@ public class Token extends PFigure{
          imageView = new ImageView("file:token.jpg");
          imageView.setFitWidth(DEFAULT_WIDTH);
          imageView.setFitHeight(DEFAULT_HEIGHT);
+
       }
       catch ( Exception e )
       {
@@ -144,6 +145,11 @@ public class Token extends PFigure{
          living_pane.getChildren().add(imageView);
 
       }
+   }
+
+   public void clear()
+   {
+      imageView.setImage(null);
    }
 
 

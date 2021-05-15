@@ -139,11 +139,12 @@ public class GameSceneManager
 
    private void playerCollidedWithToken()
    {
-      //TODO finish when tokens and enemies are in an arrayList[]
 
-      //tokenNum++;
-      //gameScreen_Pane.getChildren().remove(token);
-      //token.clear()?
+      tokenNum++;
+      gameScreen_Pane.getChildren().remove(token);
+      token.clear();
+      createToken();
+
    }
 
    private void seekingEnemyMove()
