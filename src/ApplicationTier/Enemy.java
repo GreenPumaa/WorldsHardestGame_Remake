@@ -25,10 +25,17 @@ public class Enemy extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 0;
 
+   private static final int DOWN_RIGHT_DIRECTION = 1;
+   private static final int DOWN_LEFT_DIRECTION = 2;
+   private static final int UP_RIGHT_DIRECTION = 3;
+   private static final int UP_LEFT_DIRECTION = 4;
+
+
    Random enemySpawn = new Random();
 
    private int randX = enemySpawn.nextInt(900);
    private int randY = enemySpawn.nextInt(600);
+   private int direction = enemySpawn.nextInt(4);
 
 
    public Enemy(Pane enemyPane)
@@ -39,6 +46,25 @@ public class Enemy extends PFigure
 
       this.x = randX;
       this.y = randY;
+
+      switch (direction) {
+         case DOWN_RIGHT_DIRECTION -> {
+            xVel = 1;
+            yVel = 1;
+         }
+         case DOWN_LEFT_DIRECTION -> {
+            xVel = -1;
+            yVel = 1;
+         }
+         case UP_RIGHT_DIRECTION -> {
+            xVel = 1;
+            yVel = -1;
+         }
+         case UP_LEFT_DIRECTION -> {
+            xVel = -1;
+            yVel = -1;
+         }
+      }
 
       super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
@@ -99,5 +125,21 @@ public class Enemy extends PFigure
 
       enemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);
       living_pane.getChildren().add(enemy);
+   }
+
+   public void setxVel(int xVel) {
+      this.xVel = xVel;
+   }
+
+   public void setyVel(int yVel) {
+      this.yVel = yVel;
+   }
+
+   public int getxVel() {
+      return xVel;
+   }
+
+   public int getyVel() {
+      return yVel;
    }
 }

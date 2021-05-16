@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class seekingEnemy extends PFigure
 {
-   private int xVel = 1;
-   private int yVel = 1;
+   private int xVel = 2;
+   private int yVel = 2;
    private ImageView imageView;
 
    Group seekingenemy;
@@ -101,7 +101,7 @@ public class seekingEnemy extends PFigure
               x - 3.0, y - 9.0,
               x - 0.0, y - 12.0,
       });
-      enemyOutline.setFill(Color.RED);
+      enemyOutline.setFill(Color.PURPLE);
       enemyOutline.setStroke(Color.BLACK);
 
       seekingenemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);

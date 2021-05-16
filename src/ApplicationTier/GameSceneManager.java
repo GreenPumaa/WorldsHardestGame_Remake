@@ -1,17 +1,15 @@
 package ApplicationTier;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.awt.*;
 
 public class GameSceneManager
 {
@@ -19,6 +17,7 @@ public class GameSceneManager
   private final Scene gameScreen_Scene;
   private final Stage gameScreen_Stage;
   private Stage startScreen_Stage;
+  private final Label tokenLabel = new Label();
 
   private Player player;
   private Enemy enemy;
@@ -26,15 +25,17 @@ public class GameSceneManager
   private seekingEnemy seekingEnemy;
 
    private static final int MAX_ENEMIES = 5;
-   private static final int MOVE_DISTANCE = 3;
+   private static final int MOVE_DISTANCE = 4;
    private static final int GAME_HEIGHT = 600; //400
    private static final int GAME_WIDTH = 900; //600
+   private static final int TARGET_TOKENS = 20;
+   private static final int SPEED_MULTIPLIER = 2;
    private boolean NORTH, EAST, SOUTH, WEST;
 
   private PFigureList enemyList = new PFigureList();
 
 
-  private int tokenNum;
+  private int numTokens = 0;
 
   private AnimationTimer gameLoop;
 
@@ -50,6 +51,8 @@ public class GameSceneManager
    {
       this.startScreen_Stage = startScreen;
       startScreen.hide();
+      gameScreen_Pane.getChildren().addAll(tokenLabel);
+      setGUI();
       createPlayer();
       createEnemies();
       createSeekingEnemy();
@@ -83,6 +86,20 @@ public class GameSceneManager
             }
          });
       });
+   }
+
+   private void updateGUI()
+   {
+      tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
+   }
+
+   private void setGUI()
+   {
+      tokenLabel.setPadding(new Insets(20, GAME_WIDTH, GAME_HEIGHT ,
+              GAME_WIDTH - 200));
+      tokenLabel.setFont(Font.font("Verdana", FontWeight.BOLD,
+              FontPosture.REGULAR, 20));
+      tokenLabel.setText("Tokens: 0/" + TARGET_TOKENS);
    }
 
    private void enemiesMove()
@@ -137,14 +154,34 @@ public class GameSceneManager
       player.move();
    }
 
+   private boolean halfTokensCollected()
+   {
+      if(numTokens == (TARGET_TOKENS / 2))
+      {
+         return true;
+      }
+      else
+         return false;
+   }
+
+   private void speedUpEnemies()
+   {
+      for(int i = 0; i < MAX_ENEMIES; i++)
+      {
+         Enemy currEnemy = (Enemy) enemyList.figure(i);
+         currEnemy.setxVel(currEnemy.getxVel() * SPEED_MULTIPLIER);
+         currEnemy.setyVel(currEnemy.getyVel() * SPEED_MULTIPLIER);
+      }
+   }
+
    private void playerCollidedWithToken()
    {
-
-      tokenNum++;
+      numTokens++;
+      if(halfTokensCollected())
+         speedUpEnemies();
       gameScreen_Pane.getChildren().remove(token);
       token.clear();
       createToken();
-
    }
 
    private void seekingEnemyMove()
@@ -178,6 +215,33 @@ public class GameSceneManager
       token.draw();
    }
 
+   private boolean enemyHit()
+   {
+      boolean hit = false;
+      for(int i = 0; i < MAX_ENEMIES; i++)
+      {
+         Enemy currEnemy = (Enemy) enemyList.figure(i);
+         if(player.collidedWith(currEnemy))
+         {
+            hit = true;
+         }
+      }
+      if (player.collidedWith(seekingEnemy))
+      {
+         hit = true;
+      }
+      return hit;
+   }
+
+   public boolean tokenTargetGot()
+   {
+      boolean gotAllTokens = false;
+      if(numTokens == TARGET_TOKENS)
+         gotAllTokens = true;
+      return gotAllTokens;
+   }
+
+
    private void gameLoop()
    {
       gameLoop = new AnimationTimer()
@@ -189,8 +253,19 @@ public class GameSceneManager
             enemiesMove();
             seekingEnemyMove();
             tokenMove();
+            if(enemyHit())
+            {
+               // Anytime a player htis an enemy
+            }
             if(player.collidedWith(token))
+            {
                playerCollidedWithToken();
+               updateGUI();
+               if(tokenTargetGot())
+               {
+                  // Game should finsh target tokens reached
+               }
+            }
          }
       };
       gameLoop.start();
