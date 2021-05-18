@@ -47,22 +47,15 @@ public class StartSceneManager
       return welcome;
    }
 
-
    private Button StartGame_Button()
    {
       Button startGame_Btn = new Button("Start Game!");
       startGame_Btn.setLayoutX((startScreen_Pane.getWidth() / 2) - 32);
       startGame_Btn.setLayoutY(75);
 
-      startGame_Btn.setOnMousePressed(new EventHandler<MouseEvent>()
-      {
-         @Override
-         public void handle(MouseEvent mouseEvent)
-         {
-            GameSceneManager game = new GameSceneManager();
-            game.newGame(startScreen_Stage);
-
-         }
+      startGame_Btn.setOnMousePressed(mouseEvent -> {
+         GameSceneManager game = new GameSceneManager();
+         game.newGame(startScreen_Stage);
       });
       return startGame_Btn;
    }

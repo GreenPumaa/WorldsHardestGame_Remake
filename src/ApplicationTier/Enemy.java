@@ -2,11 +2,9 @@ package ApplicationTier;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 import java.util.Random;
@@ -15,27 +13,21 @@ public class Enemy extends PFigure
 {
    private int xVel = 1;
    private int yVel = 1;
-   private ImageView imageView;
 
-   Group enemy;
+   private Group enemy;
 
-   private static final int STARTING_POS_X = 200;
-   private static final int STARTING_POS_Y = 300;
-   private static final int DEFAULT_WIDTH = 10;
-   private static final int DEFAULT_HEIGHT = 10;
+   private static final int STARTING_POS_X = 200, STARTING_POS_Y = 300;
+   private static final int DEFAULT_WIDTH = 10, DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 0;
 
-   private static final int DOWN_RIGHT_DIRECTION = 1;
-   private static final int DOWN_LEFT_DIRECTION = 2;
-   private static final int UP_RIGHT_DIRECTION = 3;
-   private static final int UP_LEFT_DIRECTION = 4;
+   private static final int DOWN_RIGHT_DIRECTION = 1, UP_LEFT_DIRECTION = 4;
+   private static final int DOWN_LEFT_DIRECTION = 2, UP_RIGHT_DIRECTION = 3;
 
+   private Random enemySpawn = new Random();
 
-   Random enemySpawn = new Random();
-
-   private int randX = enemySpawn.nextInt(900);
-   private int randY = enemySpawn.nextInt(600);
-   private int direction = enemySpawn.nextInt(4);
+   private final int randX = enemySpawn.nextInt(900);
+   private final int randY = enemySpawn.nextInt(600);
+   private final int direction = enemySpawn.nextInt(4);
 
 
    public Enemy(Pane enemyPane)
@@ -80,7 +72,6 @@ public class Enemy extends PFigure
       y = y + yVel;
 
       living_pane.getChildren().remove(enemy);
-
    }
 
    @Override
@@ -101,8 +92,7 @@ public class Enemy extends PFigure
 
       Polygon enemyOutline = new Polygon(); //coordinates of the polygon
       // vertices
-      enemyOutline.getPoints().addAll(new Double[]{
-              x - 0.0, y - 12.0,
+      enemyOutline.getPoints().addAll(x - 0.0, y - 12.0,
               x + 3.0, y - 9.0,//inside - in 3 down 3
               x + 10.0, y - 6.0,
               x + 7.0, y - 3.0,
@@ -118,8 +108,7 @@ public class Enemy extends PFigure
               x - 7.0, y - 3.0,
               x - 10.0, y - 6.0,
               x - 3.0, y - 9.0,
-              x - 0.0, y - 12.0,
-      });
+              x - 0.0, y - 12.0);
       enemyOutline.setFill(Color.RED);
       enemyOutline.setStroke(Color.BLACK);
 
@@ -127,19 +116,19 @@ public class Enemy extends PFigure
       living_pane.getChildren().add(enemy);
    }
 
-   public void setxVel(int xVel) {
+   public void set_xVel(int xVel) {
       this.xVel = xVel;
    }
 
-   public void setyVel(int yVel) {
+   public void set_yVel(int yVel) {
       this.yVel = yVel;
    }
 
-   public int getxVel() {
+   public int get_xVel() {
       return xVel;
    }
 
-   public int getyVel() {
+   public int get_yVel() {
       return yVel;
    }
 }

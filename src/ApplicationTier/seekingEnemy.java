@@ -2,22 +2,19 @@ package ApplicationTier;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 import java.util.Random;
 
 public class seekingEnemy extends PFigure
 {
-   private int xVel = 2;
-   private int yVel = 2;
-   private ImageView imageView;
+   private int xVel = 1;
+   private int yVel = 1;
 
-   Group seekingenemy;
+   private Group seekingEnemy;
 
    private static final int STARTING_POS_X = 200;
    private static final int STARTING_POS_Y = 300;
@@ -25,7 +22,7 @@ public class seekingEnemy extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 0;
 
-   Random enemySpawn = new Random();
+   private Random enemySpawn = new Random();
 
    private int randX = enemySpawn.nextInt(900);
    private int randY = enemySpawn.nextInt(600);
@@ -50,7 +47,6 @@ public class seekingEnemy extends PFigure
       xPos = Player.getX();
       yPos = Player.getY();
 
-
       if(this.x >= xPos)
          x = x - xVel;
       if(this.x <= xPos)
@@ -60,8 +56,7 @@ public class seekingEnemy extends PFigure
       if(this.y <= yPos)
          y = y + yVel;
 
-      living_pane.getChildren().remove(seekingenemy);
-
+      living_pane.getChildren().remove(seekingEnemy);
    }
 
    @Override
@@ -82,8 +77,7 @@ public class seekingEnemy extends PFigure
 
       Polygon enemyOutline = new Polygon(); //coordinates of the polygon
       // vertices
-      enemyOutline.getPoints().addAll(new Double[]{
-              x - 0.0, y - 12.0,
+      enemyOutline.getPoints().addAll(x - 0.0, y - 12.0,
               x + 3.0, y - 9.0,//inside - in 3 down 3
               x + 10.0, y - 6.0,
               x + 7.0, y - 3.0,
@@ -99,20 +93,21 @@ public class seekingEnemy extends PFigure
               x - 7.0, y - 3.0,
               x - 10.0, y - 6.0,
               x - 3.0, y - 9.0,
-              x - 0.0, y - 12.0,
-      });
+              x - 0.0, y - 12.0);
       enemyOutline.setFill(Color.PURPLE);
       enemyOutline.setStroke(Color.BLACK);
 
-      seekingenemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);
-      living_pane.getChildren().add(seekingenemy);
+      seekingEnemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);
+      living_pane.getChildren().add(seekingEnemy);
    }
 
+   // TODO - Delete if unused
    public double getX()
    {
       return this.x;
    }
 
+   // TODO - Delete if unused
    public double getY()
    {
       return this.y;

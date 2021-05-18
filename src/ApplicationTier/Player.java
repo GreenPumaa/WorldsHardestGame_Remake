@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 public class Player extends PFigure
 {
    private static Player instance = null;
-   static Rectangle player;
+   private static Rectangle player;
 
    private static final int STARTING_POS_X = 200;
    private static final int STARTING_POS_Y = 200;
@@ -27,7 +27,7 @@ public class Player extends PFigure
    }
 
 
-   public Player(Pane playerPane)
+   private Player(Pane playerPane)
    {
       super(STARTING_POS_X, STARTING_POS_Y, DEFAULT_HEIGHT, DEFAULT_WIDTH,
          PRIORITY, playerPane);
@@ -40,9 +40,6 @@ public class Player extends PFigure
       player = new Rectangle(width, height);
       player.setX(super.x);
       player.setY(super.y);
-
-      //player.setLayoutX();
-      //player.setLayoutY();
       player.setFill(Color.LIGHTSEAGREEN);
       player.setStroke(Color.BLACK);
 
@@ -87,7 +84,6 @@ public class Player extends PFigure
 
       player.setX(x);
       player.setY(y);
-      //living_pane.setLayoutX(living_pane.getLayoutX());
    }
 
    public static double getX()

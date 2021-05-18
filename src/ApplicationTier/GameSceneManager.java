@@ -9,35 +9,32 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 
 public class GameSceneManager
 {
+    // Game Visuals
   private final AnchorPane gameScreen_Pane;
   private final Scene gameScreen_Scene;
   private final Stage gameScreen_Stage;
-  private Stage startScreen_Stage;
   private final Label tokenLabel = new Label();
 
+    // Class declarations
   private Player player;
-  private Enemy enemy;
   private Token token;
   private seekingEnemy seekingEnemy;
-
-   private static final int MAX_ENEMIES = 5;
-   private static final int MOVE_DISTANCE = 4;
-   private static final int GAME_HEIGHT = 600; //400
-   private static final int GAME_WIDTH = 900; //600
-   private static final int TARGET_TOKENS = 20;
-   private static final int SPEED_MULTIPLIER = 2;
-   private boolean NORTH, EAST, SOUTH, WEST;
-
   private PFigureList enemyList = new PFigureList();
+  private static AnimationTimer gameLoop;
 
+    // Constants
+  private static final int MAX_ENEMIES = 5, TARGET_TOKENS = 20;
+  private static final int GAME_HEIGHT = 600, GAME_WIDTH = 900;
+  private static final int SPEED_MULTIPLIER = 2, MOVE_DISTANCE = 4;
 
+    // Game logic
+  private boolean NORTH, EAST, SOUTH, WEST;
   private int numTokens = 0;
-
-  private AnimationTimer gameLoop;
 
   public GameSceneManager()
   {
@@ -47,9 +44,8 @@ public class GameSceneManager
      gameScreen_Stage.setScene(gameScreen_Scene);
   }
 
-   public void newGame(Stage startScreen)
+   public void newGame(@NotNull Stage startScreen)
    {
-      this.startScreen_Stage = startScreen;
       startScreen.hide();
       gameScreen_Pane.getChildren().addAll(tokenLabel);
       setGUI();
@@ -120,8 +116,6 @@ public class GameSceneManager
          newEnemy.draw();
          enemyList.add(newEnemy);
       }
-      //seekingEnemy = new SeekingEnemy(gameScreen_Pane);
-      //seekingEnemy.draw();
    }
 
    private void createSeekingEnemy()
@@ -150,7 +144,6 @@ public class GameSceneManager
       if(WEST && !NORTH && !SOUTH && !EAST)
          player.move(MOVE_DISTANCE, 0);
 
-
       player.move();
    }
 
@@ -169,8 +162,8 @@ public class GameSceneManager
       for(int i = 0; i < MAX_ENEMIES; i++)
       {
          Enemy currEnemy = (Enemy) enemyList.figure(i);
-         currEnemy.setxVel(currEnemy.getxVel() * SPEED_MULTIPLIER);
-         currEnemy.setyVel(currEnemy.getyVel() * SPEED_MULTIPLIER);
+         currEnemy.set_xVel(currEnemy.get_xVel() * SPEED_MULTIPLIER);
+         currEnemy.set_yVel(currEnemy.get_yVel() * SPEED_MULTIPLIER);
       }
    }
 
@@ -198,15 +191,8 @@ public class GameSceneManager
 
    private void createPlayer()
    {
-      player = new Player(gameScreen_Pane);
+      player = Player.getInstance(gameScreen_Pane);
       player.draw();
-   }
-
-   private void createEnemy()
-   {
-      // make array list for all enemies
-      enemy = new Enemy(gameScreen_Pane);
-      enemy.draw();
    }
 
    private void createToken()
@@ -255,7 +241,7 @@ public class GameSceneManager
             tokenMove();
             if(enemyHit())
             {
-               // Anytime a player htis an enemy
+               // TODO Anytime a player hits an enemy
             }
             if(player.collidedWith(token))
             {
@@ -263,7 +249,7 @@ public class GameSceneManager
                updateGUI();
                if(tokenTargetGot())
                {
-                  // Game should finsh target tokens reached
+                  // TODO Game should finish target tokens reached
                }
             }
          }

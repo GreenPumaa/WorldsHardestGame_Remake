@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 public class GameGUI extends Application
 {
    private Pane rootPane = new Pane();
-   private Player player = new Player(rootPane);
-   private Enemy enemy  = new Enemy(rootPane);
 
    @Override
    public void start(Stage primaryStage) throws Exception

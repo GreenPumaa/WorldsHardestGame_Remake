@@ -8,27 +8,20 @@ import javafx.scene.paint.Color;
 
 import java.util.Random;
 
-public class Token extends PFigure{
-   private int xVel = 2;
-   private int yVel = 2;
+public class Token extends PFigure
+{
    private ImageView imageView;
 
-   Random tokenSpawn = new Random();
-   private static final int STARTING_POS_X = 200;
-   private static final int STARTING_POS_Y = 300;
-   private static final int DEFAULT_WIDTH = 10;
-   private static final int DEFAULT_HEIGHT = 10;
+   private final Random tokenSpawn = new Random();
+   private static final int STARTING_POS_X = 200, STARTING_POS_Y = 300;
+   private static final int DEFAULT_WIDTH = 10, DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
-   private int randX = tokenSpawn.nextInt(600);
-   private int randY = tokenSpawn.nextInt(400);
-   private int startY;
-   private int startX;
-   boolean side1 = false;
-   boolean side2 = false;
-   boolean side3 = false;
-   boolean side4 = false;
-
+   private boolean side1 = false, side4 = false, side3 = false,side2 = false;
+   private final int randX = tokenSpawn.nextInt(600);
+   private final int randY = tokenSpawn.nextInt(400);
+   private final int xVel = 2, yVel = 2;
+   private final int startX, startY;;
 
    public Token(Pane enemyPane)
    {
@@ -46,14 +39,11 @@ public class Token extends PFigure{
       startY = this.y;
       startX = this.x;
 
-      //super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
-
       try
       {
          imageView = new ImageView("file:token.jpg");
          imageView.setFitWidth(DEFAULT_WIDTH);
          imageView.setFitHeight(DEFAULT_HEIGHT);
-
       }
       catch ( Exception e )
       {
@@ -62,8 +52,8 @@ public class Token extends PFigure{
    }
 
    @Override
-   public void move(){
-
+   public void move()
+   {
       if((startY - y <= 50) && side1 == false)
       {
          y = y - yVel;
@@ -98,38 +88,6 @@ public class Token extends PFigure{
             }
          }
       }
-
-      /*
-      if((startY - y <= 50) && side1 == false)
-      {
-         y = y - yVel;
-      }
-      else
-         side1 = true;
-      if((startX - x <= 50) && side1 == true && side2 == false)
-      {
-         x = x - xVel;
-      }
-      else
-         side2 = true;
-      if((y <= startY) && side2 == true && side3 == false)
-      {
-         y = y + yVel;
-      }
-      else
-         side3 = true;
-      if((x <= startX) && side3 == true && side4 == false)
-      {
-         x = x + xVel;
-      }
-      else
-      {
-         side1 = false;
-         side2 = false;
-         side3 = false;
-      }
-       */
-
       living_pane.getChildren().remove(imageView);
    }
 
@@ -143,7 +101,6 @@ public class Token extends PFigure{
          imageView.setFitWidth(width);
 
          living_pane.getChildren().add(imageView);
-
       }
    }
 
