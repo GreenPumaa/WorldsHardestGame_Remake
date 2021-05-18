@@ -1,7 +1,5 @@
 package ApplicationTier;
 
-import javafx.scene.Node;
-
 import java.util.LinkedList;
 import java.util.ListIterator;
 

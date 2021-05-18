@@ -2,10 +2,6 @@ package ApplicationTier;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-
-
-
 import java.util.Random;
 
 public class Token extends PFigure
@@ -13,11 +9,12 @@ public class Token extends PFigure
    private ImageView imageView;
 
    private final Random tokenSpawn = new Random();
+
+   private boolean side1 = false, side4 = false, side3 = false,side2 = false;
    private static final int STARTING_POS_X = 200, STARTING_POS_Y = 300;
    private static final int DEFAULT_WIDTH = 10, DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
-   private boolean side1 = false, side4 = false, side3 = false,side2 = false;
    private final int randX = tokenSpawn.nextInt(600);
    private final int randY = tokenSpawn.nextInt(400);
    private final int xVel = 2, yVel = 2;
@@ -108,7 +105,4 @@ public class Token extends PFigure
    {
       imageView.setImage(null);
    }
-
-
-
 }

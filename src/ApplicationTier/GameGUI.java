@@ -1,17 +1,12 @@
 package ApplicationTier;
 
 import javafx.application.Application;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 
 public class GameGUI extends Application
 {
-   private Pane rootPane = new Pane();
-
    @Override
-   public void start(Stage primaryStage) throws Exception
-   {
+   public void start(Stage primaryStage) {
       try
       {
          StartSceneManager gm = new StartSceneManager();
