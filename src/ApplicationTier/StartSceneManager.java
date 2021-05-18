@@ -17,6 +17,17 @@ public class StartSceneManager
    private AnchorPane startScreen_Pane;
    private Scene startScreen_Scene;
    private Stage startScreen_Stage;
+   private static StartSceneManager startSceneManager = null;
+
+   /* TODO I was going to make all the managers Singletons but it's causing
+      more IllegalArgumentExceptions with the attempt to add nodes to panes
+   public static StartSceneManager getInstance()
+   {
+      if(startSceneManager == null))
+         startSceneManager = new StartSceneManager();
+      return startSceneManager;
+   }
+   */
 
    public StartSceneManager()
    {
@@ -52,8 +63,10 @@ public class StartSceneManager
       startGame_Btn.setLayoutY(75);
 
       startGame_Btn.setOnMousePressed(mouseEvent -> {
+         //GameSceneManager game = GameSceneManager.getInstance();
          GameSceneManager game = new GameSceneManager();
-         game.newGame(startScreen_Stage);
+         startScreen_Stage.hide();
+         game.newGame();
       });
       return startGame_Btn;
    }

@@ -9,8 +9,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
-
 
 public class GameSceneManager
 {
@@ -25,7 +23,11 @@ public class GameSceneManager
   private Token token;
   private seekingEnemy seekingEnemy;
   private PFigureList enemyList = new PFigureList();
+  private GameEnd_SceneManager gameEnd;
   private static AnimationTimer gameLoop;
+  //private static StartSceneManager sc = StartSceneManager.getInstance();
+   private StartSceneManager sc = new StartSceneManager();
+  private static GameSceneManager gameSceneManager = null;
 
     // Constants
   private static final int MAX_ENEMIES = 5, TARGET_TOKENS = 20;
@@ -36,6 +38,15 @@ public class GameSceneManager
   private boolean NORTH, EAST, SOUTH, WEST;
   private int numTokens = 0;
 
+  /* TODO I was going to make all the managers Singletons but it's causing
+      more IllegalArgumentExceptions with the attempt to add nodes to panes
+  public static GameSceneManager getInstance()
+  {
+     if(gameSceneManager == null))
+        gameSceneManager = new GameSceneManager();
+     return gameSceneManager;
+  }
+*/
   public GameSceneManager()
   {
      gameScreen_Pane = new AnchorPane();
@@ -44,11 +55,10 @@ public class GameSceneManager
      gameScreen_Stage.setScene(gameScreen_Scene);
   }
 
-   public void newGame(@NotNull Stage startScreen)
+   public void newGame()
    {
-      startScreen.hide();
       gameScreen_Pane.getChildren().addAll(tokenLabel);
-      setGUI();
+      initializeToken();
       createPlayer();
       createEnemies();
       createSeekingEnemy();
@@ -84,12 +94,12 @@ public class GameSceneManager
       });
    }
 
-   private void updateGUI()
+   private void updateTokenCount()
    {
       tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
    }
 
-   private void setGUI()
+   private void initializeToken()
    {
       tokenLabel.setPadding(new Insets(20, GAME_WIDTH, GAME_HEIGHT ,
               GAME_WIDTH - 200));
@@ -167,6 +177,15 @@ public class GameSceneManager
       }
    }
 
+   private void checkGameExit()
+   {
+      gameScreen_Stage.setOnCloseRequest(windowEvent ->
+      {
+         gameScreen_Stage.hide();
+         sc.getStartScreen_Stage().show();
+      });
+   }
+
    private void playerCollidedWithToken()
    {
       numTokens++;
@@ -227,29 +246,41 @@ public class GameSceneManager
       return gotAllTokens;
    }
 
-
    private void gameLoop()
    {
+      /* TODO Can't have one boolean as it would be accessed from an inner
+       *  class. Variables have to be final, could make a final array, but
+       *  that's too complicated for a simple check.
+      */
+      final int LOST = 0, WON = 1;
+      gameEnd = new GameEnd_SceneManager();
       gameLoop = new AnimationTimer()
       {
          @Override
          public void handle(long l)
          {
+            checkGameExit();
             moveDirection();
             enemiesMove();
             seekingEnemyMove();
             tokenMove();
+
             if(enemyHit())
             {
                // TODO Anytime a player hits an enemy
+               gameEnd.endGame(LOST, gameScreen_Stage);
             }
             if(player.collidedWith(token))
             {
                playerCollidedWithToken();
-               updateGUI();
+               updateTokenCount();
                if(tokenTargetGot())
                {
                   // TODO Game should finish target tokens reached
+                  enemyList.clear();
+                  numTokens = 0;
+                  player = null;
+                  gameEnd.endGame(WON, gameScreen_Stage);
                }
             }
          }

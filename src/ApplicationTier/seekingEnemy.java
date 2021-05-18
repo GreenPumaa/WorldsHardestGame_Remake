@@ -101,6 +101,11 @@ public class seekingEnemy extends PFigure
       living_pane.getChildren().add(seekingEnemy);
    }
 
+   public Group getSeekingEnemy()
+   {
+      return seekingEnemy;
+   }
+
    // TODO - Delete if unused
    public double getX()
    {
