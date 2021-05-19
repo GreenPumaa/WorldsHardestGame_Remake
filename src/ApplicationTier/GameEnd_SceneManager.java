@@ -1,5 +1,6 @@
 package ApplicationTier;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,12 +47,12 @@ public class GameEnd_SceneManager
 
       if(endType == GAME_WON)
       {
-         endGame_Text = "Congratulations! You won!\n Play again?";
+         endGame_Text = "Congratulations!\n You won!\n Play again?";
          endGame_Pane.getChildren().add(create_GameFinished_Label(endGame_Text));
       }
       if(endType == GAME_LOST)
       {
-         endGame_Text = "You lost! Play again?";
+         endGame_Text = "Well... Good Try. \n You lost!\n Play again?";
          endGame_Pane.getChildren().add(create_GameFinished_Label(endGame_Text));
       }
    }
@@ -60,7 +61,7 @@ public class GameEnd_SceneManager
    {
       Button mainScreen_Btn = new Button("Main menu");
       mainScreen_Btn.setLayoutX((endGame_Pane.getWidth() / 2) - 32);
-      mainScreen_Btn.setLayoutY(150);
+      mainScreen_Btn.setLayoutY(125);
 
       mainScreen_Btn.setOnMousePressed(mouseEvent -> {
          endGame_Stage.hide();
@@ -94,7 +95,7 @@ public class GameEnd_SceneManager
       Label endText = new Label();
       endText.setText(endingLabel);
       endText.setTextAlignment(TextAlignment.CENTER);
-      endText.setLayoutX(75);
+      endText.setLayoutX(55);
       return endText;
    }
 
@@ -106,7 +107,7 @@ public class GameEnd_SceneManager
 
    private void freezeGame()
    {
-      player.living_pane.getChildren().retainAll();
+      player.living_pane.getChildren().removeAll();
       for (int i = 0; i < enemyList.size(); i++)
       {
          enemyList.remove(enemyList.figure(i));

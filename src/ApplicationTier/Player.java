@@ -23,7 +23,7 @@ public class Player extends PFigure
    }
 
 
-   private Player(Pane playerPane)
+   Player(Pane playerPane)
    {
       super(STARTING_POS_X, STARTING_POS_Y, DEFAULT_HEIGHT, DEFAULT_WIDTH,
          PRIORITY, playerPane);

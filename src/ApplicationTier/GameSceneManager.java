@@ -105,7 +105,7 @@ public class GameSceneManager
               GAME_WIDTH - 200));
       tokenLabel.setFont(Font.font("Verdana", FontWeight.BOLD,
               FontPosture.REGULAR, 20));
-      tokenLabel.setText("Tokens: 0/" + TARGET_TOKENS);
+      tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
    }
 
    private void enemiesMove()
@@ -210,7 +210,8 @@ public class GameSceneManager
 
    private void createPlayer()
    {
-      player = Player.getInstance(gameScreen_Pane);
+      player = new Player(gameScreen_Pane);
+      //player = Player.getInstance(gameScreen_Pane);
       player.draw();
    }
 
@@ -269,6 +270,7 @@ public class GameSceneManager
             {
                // TODO Anytime a player hits an enemy
                gameEnd.endGame(LOST, gameScreen_Stage);
+               gameLoop.stop();
             }
             if(player.collidedWith(token))
             {
@@ -281,6 +283,7 @@ public class GameSceneManager
                   numTokens = 0;
                   player = null;
                   gameEnd.endGame(WON, gameScreen_Stage);
+                  gameLoop.stop();
                }
             }
          }
