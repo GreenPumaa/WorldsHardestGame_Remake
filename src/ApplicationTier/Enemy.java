@@ -9,6 +9,9 @@ import javafx.scene.shape.Polygon;
 
 import java.util.Random;
 
+/**
+ *
+ */
 public class Enemy extends PFigure
 {
    private int xVel = 1;
@@ -30,6 +33,9 @@ public class Enemy extends PFigure
    private final int direction = enemySpawn.nextInt(4);
 
 
+   /**
+    * @param enemyPane
+    */
    public Enemy(Pane enemyPane)
    {
       // TODO PR is subject to change. Its a temporary 0 (for enemy).
@@ -61,6 +67,9 @@ public class Enemy extends PFigure
       super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
 
+   /**
+    *
+    */
    @Override
    public void move()
    {
@@ -74,6 +83,9 @@ public class Enemy extends PFigure
       living_pane.getChildren().remove(enemy);
    }
 
+   /**
+    *
+    */
    @Override
    public void draw()
    {
@@ -116,18 +128,30 @@ public class Enemy extends PFigure
       living_pane.getChildren().add(enemy);
    }
 
+   /**
+    * @param xVel
+    */
    public void set_xVel(int xVel) {
       this.xVel = xVel;
    }
 
+   /**
+    * @param yVel
+    */
    public void set_yVel(int yVel) {
       this.yVel = yVel;
    }
 
+   /**
+    * @return
+    */
    public int get_xVel() {
       return xVel;
    }
 
+   /**
+    * @return
+    */
    public int get_yVel() {
       return yVel;
    }

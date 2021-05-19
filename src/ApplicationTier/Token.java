@@ -4,6 +4,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import java.util.Random;
 
+/**
+ *
+ */
 public class Token extends PFigure
 {
    private ImageView imageView;
@@ -20,9 +23,11 @@ public class Token extends PFigure
    private final int xVel = 2, yVel = 2;
    private final int startX, startY;;
 
+   /**
+    * @param enemyPane
+    */
    public Token(Pane enemyPane)
    {
-      // TODO PR is subject to change. Its a temporary 1.
       super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
               DEFAULT_WIDTH, PRIORITY, enemyPane );
       this.x = randX;
@@ -48,6 +53,9 @@ public class Token extends PFigure
       }
    }
 
+   /**
+    *
+    */
    @Override
    public void move()
    {
@@ -88,6 +96,9 @@ public class Token extends PFigure
       living_pane.getChildren().remove(imageView);
    }
 
+   /**
+    *
+    */
    @Override
    public void draw() {
       if( imageView != null )
@@ -101,6 +112,9 @@ public class Token extends PFigure
       }
    }
 
+   /**
+    *
+    */
    public void clear()
    {
       imageView.setImage(null);

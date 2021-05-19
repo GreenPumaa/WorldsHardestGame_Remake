@@ -13,6 +13,14 @@ public abstract class PFigure implements Comparable
    protected Pane living_pane;   // Panel the figure lives on
 
 
+   /**
+    * @param posX
+    * @param posY
+    * @param _height
+    * @param _width
+    * @param pr
+    * @param p
+    */
    public PFigure ( int posX, int posY, int _height, int _width, int pr, Pane p )
    {
       this.x = posX;

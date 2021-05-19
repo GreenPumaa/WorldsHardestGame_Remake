@@ -4,6 +4,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ *
+ */
 public class Player extends PFigure
 {
    private static Player instance = null;
@@ -15,14 +18,9 @@ public class Player extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
-   public static Player getInstance(Pane p)
-   {
-      if(instance == null)
-         instance = new Player(p);
-      return instance;
-   }
-
-
+   /**
+    * @param playerPane
+    */
    Player(Pane playerPane)
    {
       super(STARTING_POS_X, STARTING_POS_Y, DEFAULT_HEIGHT, DEFAULT_WIDTH,
@@ -30,6 +28,9 @@ public class Player extends PFigure
       super.living_pane.setPrefSize(10,10);
    }
 
+   /**
+    *
+    */
    @Override
    public void draw()
    {
@@ -42,6 +43,9 @@ public class Player extends PFigure
       living_pane.getChildren().add(player);
    }
 
+   /**
+    *
+    */
    @Override
    public void move()
    {
@@ -82,11 +86,17 @@ public class Player extends PFigure
       player.setY(y);
    }
 
+   /**
+    * @return
+    */
    public static double getX()
    {
       return player.getX();
    }
 
+   /**
+    * @return
+    */
    public static double getY()
    {
       return player.getY();

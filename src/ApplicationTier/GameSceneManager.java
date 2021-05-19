@@ -9,7 +9,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Contract;
 
+/**
+ * 
+ */
 public class GameSceneManager
 {
     // Game Visuals
@@ -25,12 +29,10 @@ public class GameSceneManager
   private PFigureList enemyList = new PFigureList();
   private GameEnd_SceneManager gameEnd;
   private static AnimationTimer gameLoop;
-  //private static StartSceneManager sc = StartSceneManager.getInstance();
-   private StartSceneManager sc = new StartSceneManager();
-  private static GameSceneManager gameSceneManager = null;
+  private StartSceneManager sc = new StartSceneManager();
 
     // Constants
-  private static final int MAX_ENEMIES = 5, TARGET_TOKENS = 20;
+  private static final int MAX_ENEMIES = 7, TARGET_TOKENS = 20;
   private static final int GAME_HEIGHT = 600, GAME_WIDTH = 900;
   private static final int SPEED_MULTIPLIER = 2, MOVE_DISTANCE = 4;
 
@@ -38,15 +40,9 @@ public class GameSceneManager
   private boolean NORTH, EAST, SOUTH, WEST;
   private int numTokens = 0;
 
-  /* TODO I was going to make all the managers Singletons but it's causing
-      more IllegalArgumentExceptions with the attempt to add nodes to panes
-  public static GameSceneManager getInstance()
-  {
-     if(gameSceneManager == null))
-        gameSceneManager = new GameSceneManager();
-     return gameSceneManager;
-  }
-*/
+   /**
+    *
+    */
   public GameSceneManager()
   {
      gameScreen_Pane = new AnchorPane();
@@ -55,6 +51,9 @@ public class GameSceneManager
      gameScreen_Stage.setScene(gameScreen_Scene);
   }
 
+   /**
+    *
+    */
    public void newGame()
    {
       gameScreen_Pane.getChildren().addAll(tokenLabel);
@@ -64,11 +63,15 @@ public class GameSceneManager
       createSeekingEnemy();
       createToken();
       initializeListeners();
+
       gameLoop();
       gameScreen_Stage.show();
    }
 
 
+   /**
+    *
+    */
    private void initializeListeners()
    {
       gameScreen_Scene.setOnKeyPressed(keyEvent ->
@@ -94,11 +97,17 @@ public class GameSceneManager
       });
    }
 
+   /**
+    *
+    */
    private void updateTokenCount()
    {
       tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
    }
 
+   /**
+    *
+    */
    private void initializeToken()
    {
       tokenLabel.setPadding(new Insets(20, GAME_WIDTH, GAME_HEIGHT ,
@@ -108,6 +117,9 @@ public class GameSceneManager
       tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
    }
 
+   /**
+    *
+    */
    private void enemiesMove()
    {
       for(int i = 0; i < MAX_ENEMIES; i++)
@@ -118,6 +130,9 @@ public class GameSceneManager
       }
    }
 
+   /**
+    *
+    */
    private void createEnemies()
    {
       for(int i = 0; i < MAX_ENEMIES; i++)
@@ -128,6 +143,9 @@ public class GameSceneManager
       }
    }
 
+   /**
+    *
+    */
    private void createSeekingEnemy()
    {
       seekingEnemy = new seekingEnemy(gameScreen_Pane);
@@ -135,7 +153,10 @@ public class GameSceneManager
 
    }
 
-   private void moveDirection()
+   /**
+    *
+    */
+   private void playerMoveDirection()
    {
       if(NORTH && !SOUTH && !EAST && !WEST)
          player.move(0, -MOVE_DISTANCE);
@@ -157,16 +178,17 @@ public class GameSceneManager
       player.move();
    }
 
+   /**
+    *
+    * @return
+    */
+   @Contract(pure = true)
    private boolean halfTokensCollected()
-   {
-      if(numTokens == (TARGET_TOKENS / 2))
-      {
-         return true;
-      }
-      else
-         return false;
-   }
+   { return (numTokens == (TARGET_TOKENS / 2)); }
 
+   /**
+    *
+    */
    private void speedUpEnemies()
    {
       for(int i = 0; i < MAX_ENEMIES; i++)
@@ -177,15 +199,22 @@ public class GameSceneManager
       }
    }
 
+   /**
+    *
+    */
    private void checkGameExit()
    {
       gameScreen_Stage.setOnCloseRequest(windowEvent ->
       {
+         gameLoop.stop();
          gameScreen_Stage.hide();
          sc.getStartScreen_Stage().show();
       });
    }
 
+   /**
+    *
+    */
    private void playerCollidedWithToken()
    {
       numTokens++;
@@ -196,31 +225,45 @@ public class GameSceneManager
       createToken();
    }
 
+   /**
+    *
+    */
    private void seekingEnemyMove()
    {
       seekingEnemy.move();
       seekingEnemy.draw();
    }
 
+   /**
+    *
+    */
    private void tokenMove()
    {
       token.move();
       token.draw();
    }
 
+   /**
+    *
+    */
    private void createPlayer()
    {
       player = new Player(gameScreen_Pane);
-      //player = Player.getInstance(gameScreen_Pane);
       player.draw();
    }
 
+   /**
+    *
+    */
    private void createToken()
    {
       token = new Token(gameScreen_Pane);
       token.draw();
    }
 
+   /**
+    * @return
+    */
    private boolean enemyHit()
    {
       boolean hit = false;
@@ -239,6 +282,10 @@ public class GameSceneManager
       return hit;
    }
 
+   /**
+    *
+    * @return
+    */
    public boolean tokenTargetGot()
    {
       boolean gotAllTokens = false;
@@ -247,12 +294,11 @@ public class GameSceneManager
       return gotAllTokens;
    }
 
+   /**
+    *
+    */
    private void gameLoop()
    {
-      /* TODO Can't have one boolean as it would be accessed from an inner
-       *  class. Variables have to be final, could make a final array, but
-       *  that's too complicated for a simple check.
-      */
       final int LOST = 0, WON = 1;
       gameEnd = new GameEnd_SceneManager();
       gameLoop = new AnimationTimer()
@@ -261,14 +307,13 @@ public class GameSceneManager
          public void handle(long l)
          {
             checkGameExit();
-            moveDirection();
+            playerMoveDirection();
             enemiesMove();
             seekingEnemyMove();
             tokenMove();
 
             if(enemyHit())
             {
-               // TODO Anytime a player hits an enemy
                gameEnd.endGame(LOST, gameScreen_Stage);
                gameLoop.stop();
             }
@@ -278,7 +323,6 @@ public class GameSceneManager
                updateTokenCount();
                if(tokenTargetGot())
                {
-                  // TODO Game should finish target tokens reached
                   enemyList.clear();
                   numTokens = 0;
                   player = null;

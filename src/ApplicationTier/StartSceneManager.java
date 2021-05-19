@@ -10,6 +10,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ *
+ */
 public class StartSceneManager
 {
    private static final int GAME_HEIGHT = 200;
@@ -19,16 +22,9 @@ public class StartSceneManager
    private Stage startScreen_Stage;
    private static StartSceneManager startSceneManager = null;
 
-   /* TODO I was going to make all the managers Singletons but it's causing
-      more IllegalArgumentExceptions with the attempt to add nodes to panes
-   public static StartSceneManager getInstance()
-   {
-      if(startSceneManager == null))
-         startSceneManager = new StartSceneManager();
-      return startSceneManager;
-   }
-   */
-
+   /**
+    *
+    */
    public StartSceneManager()
    {
       startScreen_Pane = new AnchorPane();
@@ -40,13 +36,23 @@ public class StartSceneManager
       add_StartPane_Children();
    }
 
+   /**
+    * @return
+    */
    public Stage getStartScreen_Stage() { return startScreen_Stage; }
 
+   /**
+    *
+    */
    private void add_StartPane_Children()
    {
       startScreen_Pane.getChildren().addAll(StartGame_Button(),
          create_WelcomeLabel_Label());
    }
+
+   /**
+    * @return
+    */
    private Label create_WelcomeLabel_Label()
    {
       Label welcome = new Label();
@@ -56,6 +62,9 @@ public class StartSceneManager
       return welcome;
    }
 
+   /**
+    * @return
+    */
    private Button StartGame_Button()
    {
       Button startGame_Btn = new Button("Start Game!");
@@ -63,7 +72,6 @@ public class StartSceneManager
       startGame_Btn.setLayoutY(75);
 
       startGame_Btn.setOnMousePressed(mouseEvent -> {
-         //GameSceneManager game = GameSceneManager.getInstance();
          GameSceneManager game = new GameSceneManager();
          startScreen_Stage.hide();
          game.newGame();
@@ -71,6 +79,9 @@ public class StartSceneManager
       return startGame_Btn;
    }
 
+   /**
+    *
+    */
    private void setBackGround()
    {
       Background bg = new Background(new BackgroundFill(Color.LIGHTSEAGREEN

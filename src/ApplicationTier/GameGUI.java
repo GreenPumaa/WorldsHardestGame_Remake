@@ -3,8 +3,14 @@ package ApplicationTier;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ *
+ */
 public class GameGUI extends Application
 {
+   /**
+    * @param primaryStage
+    */
    @Override
    public void start(Stage primaryStage) {
       try
@@ -20,6 +26,9 @@ public class GameGUI extends Application
 
    }
 
+   /**
+    * @param args
+    */
    public static void main(String[] args) {launch(args);}
 
 
