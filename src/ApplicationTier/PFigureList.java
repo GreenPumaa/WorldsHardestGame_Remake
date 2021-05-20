@@ -1,7 +1,6 @@
 package ApplicationTier;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
 
 /**
  * This class manages a list of PFigures.
@@ -14,12 +13,12 @@ public class PFigureList
    /**
     * The list of PFigures being managed by the class
     */
-   private LinkedList<PFigure> figures;
+   private final LinkedList<PFigure> figures;
 
    /**
     * Default constructor
     */
-   public PFigureList() { figures = new LinkedList<PFigure>(); }
+   public PFigureList() { figures = new LinkedList<>(); }
 
    /**
     * Returns a figure
@@ -37,15 +36,6 @@ public class PFigureList
    public int size()
    {
       return figures.size();
-   }
-
-   /**
-    * Returns a listIterator over figures
-    * @return The listIterator
-    */
-   public ListIterator<PFigure> toListIterator()
-   {
-      return figures.listIterator();
    }
 
    /**
@@ -73,33 +63,4 @@ public class PFigureList
    {
       figures.clear();
    }
-
-   /**
-    * Updates the onscreen position of all PFigures
-    */
-   public void update()
-   {
-      // figures.forEach(PFigure::hide);
-      figures.forEach(PFigure::move);
-      figures.forEach(PFigure::draw);
-   }
-
-
-
-   /**
-    * Updates the onscreen position of all PFigures
-    */
-   /*
-   public void update(PFigureList bullets, Player player)
-   {
-      figures.forEach(PFigure::hide);
-      figures.forEach(PFigure::move);
-      figures.forEach(PFigure::draw);
-      for(int i = 0; i < figures.size(); i++)
-      {
-         ((Enemy)figures.get(i)).shoot(bullets, player);
-      }
-   }
-   */
-
 }

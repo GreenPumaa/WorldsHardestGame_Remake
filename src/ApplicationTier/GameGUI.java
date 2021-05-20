@@ -4,12 +4,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- *
+ * Begins the game by creating a new start screen manager object and
+ * showing it.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class GameGUI extends Application
 {
    /**
-    * @param primaryStage
+    * Start method to call the opening of the main menu stage.
+    * Overridden start() method to call a custom start.
+    * @param primaryStage Main menu stage
     */
    @Override
    public void start(Stage primaryStage) {
@@ -27,7 +31,10 @@ public class GameGUI extends Application
    }
 
    /**
-    * @param args
+    * Main method
+    * Entry point of the program
+    * Launches javafx arguments
+    * @param args arguments
     */
    public static void main(String[] args) {launch(args);}
 

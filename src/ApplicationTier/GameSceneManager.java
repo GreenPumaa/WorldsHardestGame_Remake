@@ -5,14 +5,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.Contract;
 
 /**
- * 
+ * GameSceneManager controls the game.
+ * Controls visuals, user controls, and conditions.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class GameSceneManager
 {
@@ -26,10 +30,10 @@ public class GameSceneManager
   private Player player;
   private Token token;
   private seekingEnemy seekingEnemy;
-  private PFigureList enemyList = new PFigureList();
+  private final PFigureList enemyList = new PFigureList();
   private GameEnd_SceneManager gameEnd;
   private static AnimationTimer gameLoop;
-  private StartSceneManager sc = new StartSceneManager();
+  private final StartSceneManager sc = new StartSceneManager();
 
     // Constants
   private static final int MAX_ENEMIES = 7, TARGET_TOKENS = 20;
@@ -41,23 +45,28 @@ public class GameSceneManager
   private int numTokens = 0;
 
    /**
-    *
+    * Class constructor
+    * Sets the stage, scene, and pane.
     */
   public GameSceneManager()
   {
      gameScreen_Pane = new AnchorPane();
      gameScreen_Scene = new Scene(gameScreen_Pane, GAME_WIDTH, GAME_HEIGHT);
      gameScreen_Stage = new Stage();
+     gameScreen_Stage.setTitle("Token Run - Application");
      gameScreen_Stage.setScene(gameScreen_Scene);
+     gameScreen_Stage.setResizable(false);
   }
 
    /**
-    *
+    * Initializes a new game with default values, including randomly
+    * generated values.
     */
    public void newGame()
    {
       gameScreen_Pane.getChildren().addAll(tokenLabel);
       initializeToken();
+      setBackground();
       createPlayer();
       createEnemies();
       createSeekingEnemy();
@@ -68,9 +77,19 @@ public class GameSceneManager
       gameScreen_Stage.show();
    }
 
+   /**
+    * Sets the background color of the game screen.
+    */
+   private void setBackground()
+   {
+      Background bg = new Background(new BackgroundFill(Color.ALICEBLUE
+         , null, null));
+      gameScreen_Pane.setBackground(bg);
+   }
 
    /**
-    *
+    * Initializes the listeners for the player to move/stop.
+    * Uses simple booleans to check which direction the player is moving.
     */
    private void initializeListeners()
    {
@@ -98,7 +117,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Updates token count on the GUI.
     */
    private void updateTokenCount()
    {
@@ -106,19 +125,20 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Sets padding, font, and text for the token.
     */
    private void initializeToken()
    {
-      tokenLabel.setPadding(new Insets(20, GAME_WIDTH, GAME_HEIGHT ,
-              GAME_WIDTH - 200));
+      final int v = 20, v3 = 200;
+      tokenLabel.setPadding(new Insets(v, GAME_WIDTH, GAME_HEIGHT,
+              GAME_WIDTH - v3));
       tokenLabel.setFont(Font.font("Verdana", FontWeight.BOLD,
-              FontPosture.REGULAR, 20));
+              FontPosture.REGULAR, v));
       tokenLabel.setText("Tokens: " + numTokens + "/" + TARGET_TOKENS);
    }
 
    /**
-    *
+    * Moves the linear enemies.
     */
    private void enemiesMove()
    {
@@ -131,7 +151,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Creates and draws the linear enemies.
     */
    private void createEnemies()
    {
@@ -144,50 +164,48 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Creates and draws the seeking enemy.
     */
    private void createSeekingEnemy()
    {
       seekingEnemy = new seekingEnemy(gameScreen_Pane);
       seekingEnemy.draw();
-
    }
 
    /**
-    *
+    * Moves the player in the direction that the user specifies with W,A,S,D.
     */
    private void playerMoveDirection()
    {
-      if(NORTH && !SOUTH && !EAST && !WEST)
+      if(NORTH && !SOUTH && !EAST && !WEST)           // Up
          player.move(0, -MOVE_DISTANCE);
-      if(NORTH && WEST && !EAST && !SOUTH)
-         player.move(MOVE_DISTANCE, -MOVE_DISTANCE);
-      if(NORTH && EAST && !WEST && !SOUTH)
-         player.move(-MOVE_DISTANCE, -MOVE_DISTANCE);
-      if(SOUTH && WEST && !EAST && !NORTH)
-         player.move(MOVE_DISTANCE, MOVE_DISTANCE);
-      if(SOUTH && EAST && !WEST && !NORTH)
-         player.move(-MOVE_DISTANCE, MOVE_DISTANCE);
-      if(SOUTH && !NORTH && !EAST && !WEST)
+      if(SOUTH && !NORTH && !EAST && !WEST)           // Down
          player.move(0, MOVE_DISTANCE);
-      if(EAST && !NORTH && !SOUTH && !WEST)
+      if(EAST && !NORTH && !SOUTH && !WEST)           // Right
          player.move(-MOVE_DISTANCE, 0);
-      if(WEST && !NORTH && !SOUTH && !EAST)
+      if(WEST && !NORTH && !SOUTH && !EAST)           // Left
          player.move(MOVE_DISTANCE, 0);
+      if(NORTH && WEST && !EAST && !SOUTH)            // Up, Left
+         player.move(MOVE_DISTANCE, -MOVE_DISTANCE);
+      if(NORTH && EAST && !WEST && !SOUTH)            // Up, Right
+         player.move(-MOVE_DISTANCE, -MOVE_DISTANCE);
+      if(SOUTH && WEST && !EAST && !NORTH)            // Down, Left
+         player.move(MOVE_DISTANCE, MOVE_DISTANCE);
+      if(SOUTH && EAST && !WEST && !NORTH)            // Down, Right
+         player.move(-MOVE_DISTANCE, MOVE_DISTANCE);
 
       player.move();
    }
 
    /**
-    *
-    * @return
+    * Checks to see if the player has collected half of the token goal count.
+    * @return True if tokens is half of goal, false otherwise
     */
-   @Contract(pure = true)
    private boolean halfTokensCollected()
    { return (numTokens == (TARGET_TOKENS / 2)); }
 
    /**
-    *
+    * Speeds up all enemy velocity
     */
    private void speedUpEnemies()
    {
@@ -200,7 +218,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Checks if the game has been exited.
     */
    private void checkGameExit()
    {
@@ -213,12 +231,14 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * If the player has collided with the token, the current token
+    * disappears, a new token is created, and if the token count is at
+    * half, the enemy velocity is increased.
     */
    private void playerCollidedWithToken()
    {
       numTokens++;
-      if(halfTokensCollected())
+      if (halfTokensCollected())
          speedUpEnemies();
       gameScreen_Pane.getChildren().remove(token);
       token.clear();
@@ -226,7 +246,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Moves and redraws the seekingEnemy.
     */
    private void seekingEnemyMove()
    {
@@ -235,7 +255,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Moves and redraws the token.
     */
    private void tokenMove()
    {
@@ -244,7 +264,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Creates and draws the player
     */
    private void createPlayer()
    {
@@ -253,7 +273,7 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Creates and draws the token.
     */
    private void createToken()
    {
@@ -262,7 +282,8 @@ public class GameSceneManager
    }
 
    /**
-    * @return
+    * Checks if the player has collided with any enemy type on screen.
+    * @return True if collided, false otherwise.
     */
    private boolean enemyHit()
    {
@@ -271,20 +292,16 @@ public class GameSceneManager
       {
          Enemy currEnemy = (Enemy) enemyList.figure(i);
          if(player.collidedWith(currEnemy))
-         {
             hit = true;
-         }
       }
       if (player.collidedWith(seekingEnemy))
-      {
          hit = true;
-      }
       return hit;
    }
 
    /**
-    *
-    * @return
+    * Checks if the player has reached the target token goal.
+    * @return True if token count has reached the goal, false otherwise.
     */
    public boolean tokenTargetGot()
    {
@@ -295,7 +312,9 @@ public class GameSceneManager
    }
 
    /**
-    *
+    * Runs a game loop to help the game run smoothly. Otherwise variables
+    * are not updated properly.
+    * Checks if the game has been won or lost and opens the endGame Stage.
     */
    private void gameLoop()
    {

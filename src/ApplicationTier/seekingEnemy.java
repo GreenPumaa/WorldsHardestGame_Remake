@@ -6,17 +6,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
-
 import java.util.Random;
 
 /**
- *
+ * Class that controls the seeking enemy. Moves and draws the seeking enemy.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class seekingEnemy extends PFigure
 {
-   private int xVel = 1;
-   private int yVel = 1;
-
    private Group seekingEnemy;
 
    private static final int STARTING_POS_X = 200;
@@ -25,34 +22,35 @@ public class seekingEnemy extends PFigure
    private static final int DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 0;
 
-   private Random enemySpawn = new Random();
+   private final Random enemySpawn = new Random();
 
-   private int randX = enemySpawn.nextInt(900);
-   private int randY = enemySpawn.nextInt(600);
+   private final int randX = enemySpawn.nextInt(900);
+   private final int randY = enemySpawn.nextInt(600);
 
 
    /**
-    * @param enemyPane
+    * Parameterized constructor
+    * @param enemyPane Living pane
     */
    public seekingEnemy(Pane enemyPane)
    {
-      // TODO PR is subject to change. Its a temporary 0 (for enemy).
       super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
               DEFAULT_WIDTH, PRIORITY, enemyPane );
-
       this.x = randX;
       this.y = randY;
-
       super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
 
    /**
-    *
+    * Overridden method to move the seeking enemy.
+    * This enemy tracks the players current location and constantly moves
+    * in its direction.
     */
    @Override
    public void move()
    {
       double xPos, yPos;
+      int xVel = 1, yVel = 1;
       xPos = Player.getX();
       yPos = Player.getY();
 
@@ -60,6 +58,7 @@ public class seekingEnemy extends PFigure
          x = x - xVel;
       if(this.x <= xPos)
          x = x + xVel;
+
       if(this.y >= yPos)
          y = y - yVel;
       if(this.y <= yPos)
@@ -69,7 +68,7 @@ public class seekingEnemy extends PFigure
    }
 
    /**
-    *
+    * Overridden method to draw the seeking enemy as it moves.
     */
    @Override
    public void draw()
@@ -111,14 +110,6 @@ public class seekingEnemy extends PFigure
 
       seekingEnemy = new Group(enemyOutline, eye1, eye2, pupil1, pupil2, mouth);
       living_pane.getChildren().add(seekingEnemy);
-   }
-
-   /**
-    * @return
-    */
-   public Group getSeekingEnemy()
-   {
-      return seekingEnemy;
    }
 }
 

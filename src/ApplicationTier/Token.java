@@ -5,7 +5,9 @@ import javafx.scene.layout.Pane;
 import java.util.Random;
 
 /**
- *
+ * Class to control the token.
+ * Draws and moves the token ans well as initializing it with a file image.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class Token extends PFigure
 {
@@ -18,29 +20,25 @@ public class Token extends PFigure
    private static final int DEFAULT_WIDTH = 10, DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
-   private final int randX = tokenSpawn.nextInt(600);
-   private final int randY = tokenSpawn.nextInt(400);
-   private final int xVel = 2, yVel = 2;
-   private final int startX, startY;;
+   private int startX, startY;
 
    /**
-    * @param enemyPane
+    * Parameterized constructor
+    * @param livingPane Pane that the token lives on
     */
-   public Token(Pane enemyPane)
+   public Token(Pane livingPane)
    {
       super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
-              DEFAULT_WIDTH, PRIORITY, enemyPane );
-      this.x = randX;
-      this.y = randY;
+              DEFAULT_WIDTH, PRIORITY, livingPane);
+      setTokenSpawn();
+      initializeToken();
+   }
 
-      if(this.y < 50)
-         this.y = this.y + 50;
-      if(this.x < 50)
-         this.x = this.x + 50;
-
-      startY = this.y;
-      startX = this.x;
-
+   /**
+    * initialize token width, height, and file.
+    */
+   private void initializeToken()
+   {
       try
       {
          imageView = new ImageView("file:token.jpg");
@@ -54,36 +52,51 @@ public class Token extends PFigure
    }
 
    /**
-    *
+    * Sets the token spawn points with random values.
+    */
+   private void setTokenSpawn()
+   {
+      final int randX = tokenSpawn.nextInt(600);
+      final int randY = tokenSpawn.nextInt(400);
+
+      this.x = randX;
+      this.y = randY;
+
+      if(this.y < 50)
+         this.y = this.y + 50;
+      if(this.x < 50)
+         this.x = this.x + 50;
+
+      startY = this.y;
+      startX = this.x;
+   }
+
+   /**
+    * Overridden move method from PFigure.
+    * Moves the token in a square pattern.
     */
    @Override
    public void move()
    {
-      if((startY - y <= 50) && side1 == false)
-      {
+      final int yVel = 2;
+      final int xVel = 2;
+      if((startY - y <= 50) && !side1)
          y = y - yVel;
-      }
       else
       {
          side1 = true;
-         if((startX - x <= 50) && side1 == true && side2 == false)
-         {
+         if(startX - x <= 50 && !side2)
             x = x - xVel;
-         }
          else
          {
             side2 = true;
-            if((y <= startY) && side2 == true && side3 == false)
-            {
+            if(y <= startY && !side3)
                y = y + yVel;
-            }
             else
             {
                side3 = true;
-               if((x <= startX) && side3 == true && side4 == false)
-               {
+               if(x <= startX && !side4)
                   x = x + xVel;
-               }
                else
                {
                   side1 = false;
@@ -97,7 +110,8 @@ public class Token extends PFigure
    }
 
    /**
-    *
+    * Overridden draw method from PFigure.
+    * Sets the coordinates, height, width, and adds it to the pane's children.
     */
    @Override
    public void draw() {
@@ -113,7 +127,7 @@ public class Token extends PFigure
    }
 
    /**
-    *
+    * Sets the image to null;
     */
    public void clear()
    {

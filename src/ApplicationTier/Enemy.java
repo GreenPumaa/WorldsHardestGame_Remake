@@ -6,11 +6,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
-
 import java.util.Random;
 
 /**
- *
+ * Enemy class holds the information needed for the linear enemy. Extends
+ * PFigure.
+ * Instantiates the linear enemy starting direction, movement, and drawing
+ * on the pane.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class Enemy extends PFigure
 {
@@ -26,15 +29,11 @@ public class Enemy extends PFigure
    private static final int DOWN_RIGHT_DIRECTION = 1, UP_LEFT_DIRECTION = 4;
    private static final int DOWN_LEFT_DIRECTION = 2, UP_RIGHT_DIRECTION = 3;
 
-   private Random enemySpawn = new Random();
-
-   private final int randX = enemySpawn.nextInt(900);
-   private final int randY = enemySpawn.nextInt(600);
-   private final int direction = enemySpawn.nextInt(4);
-
+   private final Random enemySpawn = new Random();
 
    /**
-    * @param enemyPane
+    * Parameterized constructor.
+    * @param enemyPane - The pane that the enemy will be created on.
     */
    public Enemy(Pane enemyPane)
    {
@@ -42,9 +41,22 @@ public class Enemy extends PFigure
       super(STARTING_POS_X,  STARTING_POS_Y,  DEFAULT_HEIGHT,
               DEFAULT_WIDTH, PRIORITY, enemyPane );
 
+      final int randX = enemySpawn.nextInt(900);
+      final int randY = enemySpawn.nextInt(600);
       this.x = randX;
       this.y = randY;
 
+      setStartingDirection();
+
+      super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
+   }
+
+   /**
+    * Sets the linear enemies starting direction.
+    */
+   private void setStartingDirection()
+   {
+      final int direction = enemySpawn.nextInt(5);
       switch (direction) {
          case DOWN_RIGHT_DIRECTION -> {
             xVel = 1;
@@ -63,12 +75,12 @@ public class Enemy extends PFigure
             yVel = -1;
          }
       }
-
-      super.living_pane.setPrefSize(DEFAULT_HEIGHT,DEFAULT_WIDTH);
    }
 
    /**
-    *
+    * Overridden move() method from PFigure. Moves the linear enemy by
+    * changing its x and y values, deleting it, then redrawing in the new
+    * position.
     */
    @Override
    public void move()
@@ -84,7 +96,8 @@ public class Enemy extends PFigure
    }
 
    /**
-    *
+    * Overridden draw() method from PFigure.
+    * Draws the linear enemy with its x and y coordinates, color, and type.
     */
    @Override
    public void draw()
@@ -104,7 +117,8 @@ public class Enemy extends PFigure
 
       Polygon enemyOutline = new Polygon(); //coordinates of the polygon
       // vertices
-      enemyOutline.getPoints().addAll(x - 0.0, y - 12.0,
+      enemyOutline.getPoints().addAll(
+         x - 0.0, y - 12.0,
               x + 3.0, y - 9.0,//inside - in 3 down 3
               x + 10.0, y - 6.0,
               x + 7.0, y - 3.0,
@@ -129,28 +143,32 @@ public class Enemy extends PFigure
    }
 
    /**
-    * @param xVel
+    * Sets x velocity.
+    * @param xVel x velocity.
     */
    public void set_xVel(int xVel) {
       this.xVel = xVel;
    }
 
    /**
-    * @param yVel
+    * Sets the y velocity.
+    * @param yVel y velocity.
     */
    public void set_yVel(int yVel) {
       this.yVel = yVel;
    }
 
    /**
-    * @return
+    * Gets the x velocity.
+    * @return xVel
     */
    public int get_xVel() {
       return xVel;
    }
 
    /**
-    * @return
+    * Gets the y velocity.
+    * @return yVel
     */
    public int get_yVel() {
       return yVel;

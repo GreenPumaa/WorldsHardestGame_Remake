@@ -5,31 +5,32 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- *
+ * Controls the player object and extends PFigure.
+ * Draws and moves the player.
+ * @author Hunter Liddell, Noah Mullendore, Carter Klare
  */
 public class Player extends PFigure
 {
-   private static Player instance = null;
    private static Rectangle player;
 
-   private static final int STARTING_POS_X = 200;
-   private static final int STARTING_POS_Y = 200;
-   private static final int DEFAULT_WIDTH = 10;
-   private static final int DEFAULT_HEIGHT = 10;
+   private static final int STARTING_POS_X = 200, STARTING_POS_Y = 200;
+   private static final int DEFAULT_WIDTH = 10, DEFAULT_HEIGHT = 10;
    private static final int PRIORITY = 1;
 
    /**
-    * @param playerPane
+    * Parameterized constructor
+    * @param playerPane livingPane
     */
    Player(Pane playerPane)
    {
       super(STARTING_POS_X, STARTING_POS_Y, DEFAULT_HEIGHT, DEFAULT_WIDTH,
          PRIORITY, playerPane);
-      super.living_pane.setPrefSize(10,10);
+      final int preferenceSize = 10;
+      super.living_pane.setPrefSize(preferenceSize,preferenceSize);
    }
 
    /**
-    *
+    * Overridden method to draw the player on the living pane.
     */
    @Override
    public void draw()
@@ -44,7 +45,9 @@ public class Player extends PFigure
    }
 
    /**
-    *
+    * Overridden method to move the player on the living pane.
+    * Checks if the player is in bounds of the screen and if it tries to
+    * leave those bounds, player cannot move any farther.
     */
    @Override
    public void move()
@@ -87,7 +90,7 @@ public class Player extends PFigure
    }
 
    /**
-    * @return
+    * @return players x coordinate.
     */
    public static double getX()
    {
@@ -95,7 +98,7 @@ public class Player extends PFigure
    }
 
    /**
-    * @return
+    * @return players y coordinate.
     */
    public static double getY()
    {

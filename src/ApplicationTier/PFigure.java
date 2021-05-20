@@ -1,9 +1,11 @@
 package ApplicationTier;
 
 import javafx.scene.layout.Pane;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Creates base for figures.
- * @author
+ * @author Donna Gavin?
  */
 public abstract class PFigure implements Comparable
 {
@@ -12,14 +14,14 @@ public abstract class PFigure implements Comparable
    protected int priority;       // Can use to determine "winner"
    protected Pane living_pane;   // Panel the figure lives on
 
-
    /**
-    * @param posX
-    * @param posY
-    * @param _height
-    * @param _width
-    * @param pr
-    * @param p
+    * Parameterized constructor
+    * @param posX X Coordinate.
+    * @param posY Y Coordinate.
+    * @param _height Height of the figure.
+    * @param _width Width of the figure.
+    * @param pr Priority of the figure.
+    * @param p Pane that the figure lives on.
     */
    public PFigure ( int posX, int posY, int _height, int _width, int pr, Pane p )
    {
@@ -32,12 +34,12 @@ public abstract class PFigure implements Comparable
    }
 
    /**
-    *
-    * @param
-    * @return
+    * Compares the priorities of this figure and the passed figure.
+    * @param o the passed PFigure
+    * @return This priority - o.priority
     */
    @Override
-   public int compareTo(Object o)
+   public int compareTo(@NotNull Object o)
    {
       if( o instanceof PFigure )
          return priority - ((PFigure)o).priority;
@@ -53,7 +55,6 @@ public abstract class PFigure implements Comparable
    {
       if (  p == null )
          return false;
-
       return ( x + width ) >= p.x && ( p.x + p.width ) >= x &&
          ( y + height ) >= p.y && ( p.y + p.height ) >= y;
    }
@@ -83,7 +84,6 @@ public abstract class PFigure implements Comparable
    public void move()
    {
    }
-
 
    /**
     * Abstract draw method to be overridden.
