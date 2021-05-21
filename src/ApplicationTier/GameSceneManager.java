@@ -38,7 +38,7 @@ public class GameSceneManager
     // Constants
   private static final int MAX_ENEMIES = 7, TARGET_TOKENS = 20;
   private static final int GAME_HEIGHT = 600, GAME_WIDTH = 900;
-  private static final int SPEED_MULTIPLIER = 2, MOVE_DISTANCE = 4;
+  private static final int SPEED_MULTIPLIER = 2, MOVE_DISTANCE = 3;
 
     // Game logic
   private boolean NORTH, EAST, SOUTH, WEST;
